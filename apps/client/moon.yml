@@ -1,0 +1,12 @@
+---
+language: typescript
+tasks:
+  build:
+    command:
+      - vite
+      - build
+  build-dep1:
+    command: tsc
+  dev:
+    command: vite
+    local: true

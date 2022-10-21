@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  server:
+    container_name: ai_art_server
+    build: .
+    env_file:
+      - .env
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+      - "5555:5555"
+    depends_on:
+      - redis
+      - db
+
+  redis:
+    image: bitnami/redis:latest
+    container_name: redis
+    environment:
+      - REDIS_PASSWORD=password123
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
+      - REDIS_PORT_NUMBER=7000
+    volumes:
+      - redis:/redis_data
+    ports:
+      - "7001:7000"
+
+  db:
+    container_name: postgres_db
+    image: postgres
+    env_file:
+      - .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+
+networks:
+  default:
+    name: ai_art
+volumes:
+  pg_data:
+  redis:

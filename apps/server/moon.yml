@@ -1,0 +1,28 @@
+---
+language: typescript
+tasks:
+  build:
+    command: tsc
+    platform: unknown
+  build-dep1:
+    command:
+      - rimraf
+      - "./build"
+    platform: unknown
+  dev:
+    command: docker compose up
+    platform: system
+    local: true
+  start-prod:
+    command:
+      - node
+      - "./build/server.js"
+    platform: unknown
+    local: true
+  start-prod-dep1:
+    command:
+      - moon
+      - run
+      - "server:build"
+    platform: unknown
+    local: true

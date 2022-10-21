@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.filepond--item {
+  width: calc(50% - 0.5em);
+}
