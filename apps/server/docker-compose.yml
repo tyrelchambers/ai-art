@@ -9,6 +9,8 @@ services:
     ports:
       - "4000:4000"
       - "5555:5555"
+    volumes:
+      - ./:/code
     depends_on:
       - redis
       - db

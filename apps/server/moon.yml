@@ -13,6 +13,10 @@ tasks:
     command: docker compose up
     platform: system
     local: true
+  dev-build-docker:
+    command: docker compose up --build
+    platform: system
+    local: true
   start-prod:
     command:
       - node

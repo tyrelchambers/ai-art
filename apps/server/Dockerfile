@@ -5,10 +5,10 @@ WORKDIR /code
 RUN mkdir -p /node_modules && chown -R node:node /node_modules
 COPY --chown=node:node . .
 
-COPY package*.json ./
+COPY package*.json tsconfig.json ./
 
-RUN npm install -g prisma nodemon ts-node typescript
 RUN npm i
+RUN npm install -g prisma nodemon
 
 
 COPY . .

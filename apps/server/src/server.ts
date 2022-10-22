@@ -44,8 +44,6 @@ app.use(
 app.use("/api/v1", router);
 
 const main = async () => {
-  console.log("hi");
-
   await redisClient.connect();
 
   app.listen(PORT, () => {
