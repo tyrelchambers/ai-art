@@ -39,6 +39,17 @@ export const userGallery = async (
       where: {
         userId: user?.uuid,
       },
+      include: {
+        collections: {
+          select: {
+            collection: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     res.send(gallery);

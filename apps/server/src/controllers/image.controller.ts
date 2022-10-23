@@ -1,19 +1,38 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../db";
-import { getImageFromAWS } from "../libs/aws";
 
 export const getImage = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { filename } = req.query;
+  try {
+    const imageId = req.query.imageId as string;
 
-  const userId = req.session.userId;
+    const image = await prisma.image.findUnique({
+      where: {
+        uuid: imageId,
+      },
+      include: {
+        collections: {
+          select: {
+            collection: true,
+          },
+        },
+      },
+    });
 
-  const file = await getImageFromAWS({ filename }, userId);
+    const updatedCollections = image?.collections.map((obj) => {
+      return { ...obj.collection };
+    });
 
-  res.send({ file });
+    // @ts-ignore
+    image.collections = updatedCollections;
+
+    res.send(image);
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const editImage = async (
@@ -23,15 +42,29 @@ export const editImage = async (
 ) => {
   try {
     const userId = req.session.userId;
-    const { imageId, newData } = req.body;
+    const { uuid, name, collections } = req.body;
 
     await prisma.image.updateMany({
-      data: newData,
+      data: {
+        name,
+      },
       where: {
-        uuid: imageId,
+        uuid,
         userId,
       },
     });
+
+    const collectionsWithImageId = collections.map((c) => ({
+      collectionId: c.uuid,
+      imageId: uuid,
+    }));
+
+    await prisma.imagesCollections.createMany({
+      data: collectionsWithImageId,
+      skipDuplicates: true,
+    });
+
+    res.sendStatus(200);
   } catch (error) {
     next(error);
   }

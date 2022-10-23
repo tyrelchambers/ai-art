@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import PublicGallery from "./pages/PublicGallery";
 import Gallery from "./pages/user/Gallery";
 import Collections from "./pages/user/Collections";
+import Image from "./pages/Image";
 
 export const routes: Route[] = [
   {
@@ -36,6 +37,10 @@ export const routes: Route[] = [
   },
   {
     path: "/user",
+  },
+  {
+    path: "/image/:uuid",
+    element: <Image />,
   },
   {
     path: ":uuid",

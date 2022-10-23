@@ -9,7 +9,6 @@ export const publishImages = async (
   try {
     const files = req.body;
     const currentUser = res.locals.currentUser;
-    console.log(res.locals.currentUser);
 
     const filesWithUserId = files.map((f) => ({
       ...f,

@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "apps/*"
+    "apps/client"
   ],
   "devDependencies": {
     "@moonrepo/cli": "^0.17.0"

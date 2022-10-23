@@ -1,10 +1,11 @@
 import { faClock } from "@fortawesome/free-regular-svg-icons";
-import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisH, faTag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image, Menu } from "@mantine/core";
 import { format } from "date-fns";
 import React from "react";
-import ImageMenu from "../layouts/imageMenu";
+import { Link } from "react-location";
+import ImageMenu from "../layouts/ImageMenu";
 import { ImageFromDb } from "../types";
 
 interface Props {
@@ -13,7 +14,7 @@ interface Props {
 
 const GalleryItem = ({ image }: Props) => {
   return (
-    <div className="bg-white rounded-md">
+    <Link to={`/image/${image.uuid}`} className="bg-white rounded-md">
       <div className="relative">
         <Image
           src={image.url}
@@ -42,18 +43,24 @@ const GalleryItem = ({ image }: Props) => {
           </Menu>
         </div>
       </div>
-      <div className="p-4 flex flex-col">
+      <div className="p-4 flex flex-col gap-4">
         <p className="font-bold">{image.name}</p>
-        <p className="text-xs text-gray-600 mt-4">
+        {/* <div className="text-xs text-gray-600 flex gap-2 items-center">
+          <FontAwesomeIcon icon={faTag} />{" "}
+          {image.collections?.map((c) => (
+            <p>{c.collection.name}</p>
+          ))}
+        </div>
+        <p className="text-xs text-gray-600">
           <FontAwesomeIcon icon={faClock} />{" "}
           {format(new Date(image.createdAt), "MMMM do")}
-        </p>
+        </p> */}
       </div>
 
       <div className="bg-gray-50 p-4">
         <p className="text-xs text-gray-500">{image.filename}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 
