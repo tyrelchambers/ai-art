@@ -1,23 +1,24 @@
 {
-  "name": "moonrepo",
+  "name": "ai-art",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:all": "concurrently \" yarn --cwd ./apps/client dev \" \" yarn --cwd ./apps/server dev \""
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tyrelchambers/ai-art.git"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "workspaces": [
-    "apps/client",
-    "apps/server"
-  ],
-  "devDependencies": {
-    "@moonrepo/cli": "^0.17.0"
+  "bugs": {
+    "url": "https://github.com/tyrelchambers/ai-art/issues"
   },
-  "engines": {
-    "node": "16.17.0"
-  },
-  "private": true,
-  "packageManager": "yarn@3.2.3"
+  "homepage": "https://github.com/tyrelchambers/ai-art#readme",
+  "dependencies": {
+    "concurrently": "^7.5.0"
+  }
 }
