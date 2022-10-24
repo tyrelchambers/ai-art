@@ -44,6 +44,15 @@ export const editImage = async (
     const userId = req.session.userId;
     const { uuid, name, collections } = req.body;
 
+    const snapshotImage = await prisma.image.findUnique({
+      where: {
+        uuid,
+      },
+      include: {
+        collections: true,
+      },
+    });
+
     await prisma.image.updateMany({
       data: {
         name,
@@ -55,9 +64,18 @@ export const editImage = async (
     });
 
     const collectionsWithImageId = collections.map((c) => ({
-      collectionId: c.uuid,
+      collectionId: c.value,
       imageId: uuid,
     }));
+
+    // check for which collections don't exist between the new collection array coming in
+    // and the collection that existed before the update so we can see which
+    // ones to delete
+
+    const collectionsToDelete = snapshotImage?.collections.filter(
+      (sc) => sc.collectionId !== collections.value
+    );
+    console.log(collectionsToDelete);
 
     await prisma.imagesCollections.createMany({
       data: collectionsWithImageId,

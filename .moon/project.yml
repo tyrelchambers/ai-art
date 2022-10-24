@@ -43,6 +43,9 @@ fileGroups:
 # This setting requires a map, where the key is a unique name for the task,
 # and the value is an object of task parameters.
 tasks:
+  start-studio:
+    command: prisma studio --schema ./apps/server/prisma
+    platform: "node"
   noop:
     # The name of the binary/command on your system.
     command: "noop"

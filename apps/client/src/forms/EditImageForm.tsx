@@ -13,11 +13,25 @@ const EditImageForm = ({ image }: { image: ImageFromDb }) => {
   const { collections } = useCollections();
 
   const [state, setState] = useState(image);
+  const [stateCollections, setStateCollections] = useState(() => {
+    const modifiedStateCollections = image.collections?.map((c) => ({
+      label: c.name,
+      value: c.uuid,
+    }));
+
+    return modifiedStateCollections;
+  });
 
   const submitHandler = () => {
-    update.mutate(state);
+    const payload = {
+      ...state,
+    };
 
-    closeAllModals();
+    payload.collections = stateCollections;
+
+    update.mutate(payload);
+
+    // closeAllModals();
   };
 
   if (!collections) return null;
@@ -25,11 +39,6 @@ const EditImageForm = ({ image }: { image: ImageFromDb }) => {
   const modifiedCollections = collections?.map((c) => ({
     label: c.name,
     value: c.uuid,
-  }));
-
-  const modifiedStateCollections = state.collections?.map((c) => ({
-    label: c.label,
-    value: c.value,
   }));
 
   return (
@@ -44,8 +53,8 @@ const EditImageForm = ({ image }: { image: ImageFromDb }) => {
 
       <Select
         options={modifiedCollections}
-        onChange={(e) => setState({ ...state, collections: e })}
-        value={modifiedStateCollections}
+        onChange={(e) => setStateCollections(e)}
+        value={stateCollections}
         placeholder="Add to a collection"
         isMulti
       />

@@ -17,5 +17,10 @@
     "typeRoots": [
       "./src/types"
     ]
-  }
+  },
+  "references": [
+    {
+      "path": "../prisma"
+    }
+  ]
 }

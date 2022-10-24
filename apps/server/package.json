@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.194.0",
     "@prisma/client": "^4.5.0",
     "@types/connect-redis": "^0.0.18",
     "@types/cors": "^2.8.12",

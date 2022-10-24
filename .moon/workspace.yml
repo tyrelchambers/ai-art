@@ -22,7 +22,7 @@ node:
 
   # The package manager to use when managing dependencies.
   # Accepts "npm" (default), "pnpm", or "yarn".
-  packageManager: "npm"
+  packageManager: "yarn"
 
   # Add `node.version` as a constraint in the root `package.json` `engines`.
   addEnginesConstraint: true
