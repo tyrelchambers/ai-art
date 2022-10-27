@@ -1,3 +1,4 @@
+import { ImagesCollections } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../db";
 
@@ -42,7 +43,11 @@ export const editImage = async (
 ) => {
   try {
     const userId = req.session.userId;
-    const { uuid, name, collections } = req.body;
+    const { uuid, name, collections } = req.body as {
+      collections: any[];
+      uuid: string;
+      name: string;
+    };
 
     const snapshotImage = await prisma.image.findUnique({
       where: {
@@ -64,18 +69,13 @@ export const editImage = async (
     });
 
     const collectionsWithImageId = collections.map((c) => ({
-      collectionId: c.value,
       imageId: uuid,
+      collectionId: c.value,
     }));
 
     // check for which collections don't exist between the new collection array coming in
     // and the collection that existed before the update so we can see which
     // ones to delete
-
-    const collectionsToDelete = snapshotImage?.collections.filter(
-      (sc) => sc.collectionId !== collections.value
-    );
-    console.log(collectionsToDelete);
 
     await prisma.imagesCollections.createMany({
       data: collectionsWithImageId,

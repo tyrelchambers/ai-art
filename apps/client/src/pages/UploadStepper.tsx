@@ -19,6 +19,8 @@ const UploadStepper = ({ images }: { images: ImageFile | ImageFile[] }) => {
     setCurrentImageIndex(currentImageIndex - 1);
   };
 
+  console.log(state);
+
   return (
     <div className="w-full flex flex-col gap-4">
       <ImageBeingUploaded

@@ -7,6 +7,7 @@ import CreateCollectionModal from "../../modals/CreateCollectionModal";
 
 const Collections = () => {
   const { collections } = useCollections();
+  console.log(collections);
 
   return (
     <div>
@@ -22,7 +23,7 @@ const Collections = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3 gap-10">
           {collections?.map((c) => (
             <Collection imagePreview={c.images} collection={c} />
           ))}

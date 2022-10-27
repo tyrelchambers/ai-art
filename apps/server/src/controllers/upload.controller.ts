@@ -15,13 +15,13 @@ export const uploadImages = async (
     const file = req.files[0];
 
     const imageBuffer = (await getImageFromAWS(file, userId)) as string;
+
     const imageObj: Image = {
       image: imageBuffer,
       url: file.location,
       userId,
       filename: file.originalname,
       name: "",
-      // collections: [],
     };
 
     await redisClient.sAdd(redis_key, JSON.stringify(imageObj));

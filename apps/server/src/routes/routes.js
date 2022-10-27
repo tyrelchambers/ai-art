@@ -14,12 +14,8 @@ const { getImage, editImage } = require("../controllers/image.controller");
 const router = express.Router();
 
 router
-  .post("/upload", [
-    isAuthenticated,
-    aws_upload.array("files", 10),
-    uploadImages,
-  ])
-  .post("/upload/publish", [isAuthenticated, publishImages]);
+  .post("/upload", isAuthenticated, aws_upload.array("files", 10), uploadImages)
+  .post("/upload/publish", isAuthenticated, publishImages);
 
 router.get("/image", getImage).post("/image", editImage);
 

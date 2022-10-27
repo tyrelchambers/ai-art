@@ -33,17 +33,16 @@ export const aws_upload = multer({
 });
 
 export const getImageFromAWS = async (img, userId) => {
-  
   try {
     const data = await s3.send(
-    new GetObjectCommand({
-      Bucket: process.env.AWS_S3_BUCKET,
-      Key: img.key,
-    })
-  );
+      new GetObjectCommand({
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: img.key,
+      })
+    );
 
-  const bodyContents = await streamToString(data.Body);
-  return bodyContents;
+    const bodyContents = await streamToString(data.Body);
+    return bodyContents;
   } catch (error) {
     console.log(error);
     return;

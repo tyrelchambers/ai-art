@@ -14,13 +14,14 @@ interface Props {
 
 const GalleryItem = ({ image }: Props) => {
   return (
-    <Link to={`/image/${image.uuid}`} className="bg-white rounded-md">
+    <div to={`/image/${image.uuid}`} className="bg-white rounded-md">
       <div className="relative">
         <Image
           src={image.url}
           withPlaceholder
           classNames={{
-            image: "rounded-t-md",
+            image: "rounded-t-md h-[205px]",
+            placeholder: "h-[205px]",
           }}
         />
         <div className="absolute top-2 right-2 z-10">
@@ -60,7 +61,7 @@ const GalleryItem = ({ image }: Props) => {
       <div className="bg-gray-50 p-4">
         <p className="text-xs text-gray-500">{image.filename}</p>
       </div>
-    </Link>
+    </div>
   );
 };
 

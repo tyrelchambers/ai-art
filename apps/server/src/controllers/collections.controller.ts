@@ -30,7 +30,12 @@ export const userCollections = async (
       },
     });
 
-    res.send(collections);
+    const formattedCollections = collections.map((c) => ({
+      ...c,
+      images: c.images.map((i) => i.image),
+    }));
+
+    res.send(formattedCollections);
   } catch (error) {
     next(error);
   }

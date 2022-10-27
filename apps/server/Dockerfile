@@ -12,6 +12,7 @@ RUN yarn global add prisma nodemon
 
 
 COPY . .
+RUN prisma generate
 
 EXPOSE 4000
 

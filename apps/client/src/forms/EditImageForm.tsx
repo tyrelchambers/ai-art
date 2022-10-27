@@ -14,6 +14,8 @@ const EditImageForm = ({ image }: { image: ImageFromDb }) => {
 
   const [state, setState] = useState(image);
   const [stateCollections, setStateCollections] = useState(() => {
+    console.log(image);
+
     const modifiedStateCollections = image.collections?.map((c) => ({
       label: c.name,
       value: c.uuid,
