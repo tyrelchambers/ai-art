@@ -9,9 +9,13 @@ export const publishImages = async (
   try {
     const files = req.body;
     const currentUser = res.locals.currentUser;
+    const bucketRegex = new RegExp(`${process.env.AWS_S3_BUCKET}.`);
 
+    // this is here because without the replace, the bucket name is duplicated in the file location
+    // eg: bucket-name.bucket-name.url
     const filesWithUserId = files.map((f) => ({
       ...f,
+      url: f.url.replace(bucketRegex, ""),
       userId: currentUser.uuid,
     }));
 

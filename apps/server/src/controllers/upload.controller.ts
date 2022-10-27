@@ -1,40 +1,48 @@
 import { NextFunction, Request, Response } from "express";
 import { Session } from "express-session";
-import { getImageFromAWS } from "../libs/aws";
+import { aws_upload, getImageFromAWS } from "../libs/aws";
 import { redisClient } from "../libs/redis";
 import { Image } from "../types";
+
+const imageUpload = aws_upload.array("files", 10);
 
 export const uploadImages = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const { redis_key, files_length } = req.body;
-    const userId = req.session.userId;
-    const file = req.files[0];
+  imageUpload(req, res, async (err) => {
+    try {
+      if (err) {
+        next(err);
+      }
 
-    const imageBuffer = (await getImageFromAWS(file, userId)) as string;
+      const { redis_key, files_length } = req.body;
+      const userId = req.session.userId;
+      const file = req.files[0];
 
-    const imageObj: Image = {
-      image: imageBuffer,
-      url: file.location,
-      userId,
-      filename: file.originalname,
-      name: "",
-    };
+      const imageBuffer = (await getImageFromAWS(file, userId)) as string;
 
-    await redisClient.sAdd(redis_key, JSON.stringify(imageObj));
+      const imageObj: Image = {
+        image: imageBuffer,
+        url: file.location,
+        userId,
+        filename: file.originalname,
+        name: "",
+      };
 
-    const imgSetSize = await redisClient.v4.sCard(redis_key);
+      await redisClient.sAdd(redis_key, JSON.stringify(imageObj));
 
-    if (imgSetSize == files_length) {
-      const set = await redisClient.v4.sMembers(redis_key);
-      res.send({ files: set });
-    } else {
-      res.sendStatus(202);
+      const imgSetSize = await redisClient.v4.sCard(redis_key);
+
+      if (imgSetSize == files_length) {
+        const set = await redisClient.v4.sMembers(redis_key);
+        res.send({ files: set });
+      } else {
+        res.sendStatus(202);
+      }
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
-  }
+  });
 };
